@@ -8,6 +8,7 @@ class Character {
   String? thumbnail_big;
   List<String>? comics;
   PaletteGenerator? cor_dominante;
+  String? url;
 
   Character({
     required this.id,
@@ -16,6 +17,7 @@ class Character {
     required this.thumbnail,
     required this.thumbnail_big,
     required this.comics,
+    required this.url,
   });
 
   Character.fromJson(Map<String, dynamic> json) {
@@ -43,5 +45,7 @@ class Character {
       lista_strings.add(item['name']);
     }
     comics = lista_strings;
+
+    url = json['urls'][0]['url'];
   }
 }

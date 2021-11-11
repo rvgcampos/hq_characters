@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hq_characters/app/core/values/colors.dart';
+import 'package:hq_characters/app/modules/detail_character/components/comics.dart';
+import 'package:hq_characters/app/modules/detail_character/components/picture.dart';
 import 'package:hq_characters/app/modules/detail_character/detail_character_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailCharacterPage extends GetView<DetailCharacterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: AppColors.foregroundColor.withOpacity(0.8),
         backgroundColor: Get.arguments.cor_dominante!.dominantColor!.color,
         elevation: 0,
       ),
@@ -16,25 +18,11 @@ class DetailCharacterPage extends GetView<DetailCharacterController> {
         fit: StackFit.expand,
         children: [
           Container(
-            // color: AppColors.foregroundColor.withOpacity(0.8),
             color: Get.arguments.cor_dominante!.dominantColor!.color,
           ),
           Positioned(
             left: 100,
-            child: Container(
-              width: 200,
-              height: 300,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Hero(
-                  tag: Get.arguments.name,
-                  child: Image.network(
-                    Get.arguments.thumbnail_big,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
+            child: Picture(),
           ),
           Positioned(
             bottom: 0,
@@ -54,75 +42,74 @@ class DetailCharacterPage extends GetView<DetailCharacterController> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 150, left: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      Get.arguments.name,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: 2),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: 150,
-                      child: SingleChildScrollView(
-                        child: Text(
-                          Get.arguments.description == ''
-                              ? 'Sem descrição'
-                              : Get.arguments.description,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: 2),
+                padding: const EdgeInsets.only(top: 100, left: 10),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          print(Get.arguments.url);
+                          await launch(Get.arguments.url);
+                        },
+                        child: Container(
+                          width: 150,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text('Ver mais detalhes'),
+                              Icon(Icons.arrow_forward_outlined),
+                            ],
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary:
+                              Get.arguments.cor_dominante!.dominantColor!.color,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Comics',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: 2),
-                    ),
-                    Container(
-                      height: 50,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: (Get.arguments.comics as List<String>)
-                            .map((comic) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      // color: AppColors.foregroundColor,
-                                      color: Get.arguments.cor_dominante!
-                                          .dominantColor!.color,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        comic,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
+                      Text(
+                        Get.arguments.name,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: 2),
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 150,
+                        child: SingleChildScrollView(
+                          child: Text(
+                            Get.arguments.description == ''
+                                ? 'Sem descrição'
+                                : Get.arguments.description,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: 2),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Comics',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: 2),
+                      ),
+                      Comics()
+                    ],
+                  ),
                 ),
               ),
             ),
