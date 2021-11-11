@@ -16,3 +16,7 @@
 1. Animação Hero.
 1. Uso do Dio como pacote para requisições HTTP.
 1. Uso de um pacote que tem como objetivo obter a cor principal de uma determinada imagem. Esse recurso foi usado na exibição dos cards dos personagens.
+1. O usuário pode tocar no botão que fica no final da listagem para obter novos personagens.
+
+## Vídeo
+O video pode ser visto por [esse link](https://youtu.be/QwaAtgo168A)
